@@ -1,0 +1,107 @@
+# -*- coding: utf-8 -*-
+# @Author: hanjiyun
+# @Date:   2016-11-12 20:49:20
+# @Last Modified by:   hanjiyun
+# @Last Modified time: 2016-11-13 02:40:30
+
+from flask import Flask, render_template, request, jsonify, abort, make_response
+
+import user
+import scrobble
+import database
+from datetime import datetime, timedelta
+from scheduler import Scheduler
+from config import tasks
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/first')
+def first():
+    return render_template('first.html')
+
+@app.route('/second')
+def second():
+    user_ID = request.args.get('username', '')
+    (url, network) = user.get_url(user_ID)
+    # return render(request, 'second.html', {"url": url},)
+    return render_template('second.html', url=url)
+
+@app.route('/third')
+def third():
+    token = request.args.get('token')
+    user_ID = request.args.get('username')
+    try:
+        session = scrobble.get_session(token)
+    except Exception as e:
+        return render_template('error.html', error='token 已过期'), 401
+    
+    record_time = datetime.now() - timedelta(minutes=20)
+    record_time = record_time.strftime('%Y-%m-%d %H:%M:%S')
+    database.insert_user(user_ID, session, record_time)
+    return render_template('third.html')
+
+
+def love():
+    number_of_task = tasks
+    all_users = database.get_all_users()
+    all_users = sorted(all_users, key=lambda x:x[0])
+    slice_number = len(all_users) / 5
+    if number_of_task != 4:
+        users = all_users[number_of_task*slice_number:
+                          (number_of_task+1)*slice_number]
+    elif number_of_task == 4:
+        users = all_users[number_of_task * slice_number:
+                          len(all_users)]
+    for user in users:
+        loved_songs = scrobble.xiami_loved(user)
+        if loved_songs:
+            scrobble.lastfm_loved(loved_songs, user)
+
+    print 'Loved!'
+
+
+def sync():
+    #read the user list from database
+    users = database.get_user()
+
+    for user in  users:
+        #read playing songs from the xiami
+        titles, artists, track_times, record_time = scrobble.xiami(user)
+        if titles:
+            print 'titles: %s, artists: %s ' % (titles, artists)
+            scrobble.lastfm(titles, artists, track_times, user)
+
+            #modify the user information
+            database.modify_user(user[0], record_time)
+    print 'running!'
+
+
+@app.route('/verify', methods=['POST'])
+def verify():
+    user_ID = request.form['username']
+    should_continued = user.verify_user(user_ID)
+    return jsonify({'continued': should_continued})
+
+@app.errorhandler(401)
+def not_found(error):
+    resp = make_response(render_template('error.html'), 401)
+    resp.headers['X-Something'] = 'A value'
+    return resp
+
+def query_db():
+    print "IM QUERYING A DB"
+
+if __name__ == '__main__':
+    scheduler_sync = Scheduler(30, sync)
+    # scheduler_love = Scheduler(10, love)
+    scheduler_sync.start()
+    # scheduler_love.start()
+    app.debug = False
+    app.use_reloader = False
+    app.run()
+    scheduler_sync.stop()
+    # scheduler_love.stop()

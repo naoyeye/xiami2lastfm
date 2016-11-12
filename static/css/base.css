@@ -1,0 +1,120 @@
+/*
+* @Author: hanjiyun
+* @Date:   2016-11-13 00:26:54
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2016-11-13 01:51:43
+*/
+
+body {
+  line-height: 1.7;
+  font-size: 14px;
+  font-family: "PingfangSC", "Source Han Sans", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+#wrapper {
+  margin: 0 20px;
+}
+
+#container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+header h1 {
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+header p {
+  font-size: 18px;
+}
+
+#main {
+  padding: 30px 0;
+  text-align: center;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 2px 0;
+  margin: 0;
+  list-style: none;
+}
+
+footer {
+  font-size: 14px;
+  padding-top: 40px;
+  border-top: 1px solid #ddd;
+  color: #999;
+}
+
+footer ul {
+  float: left;
+}
+
+footer .about {
+  float: right;
+}
+
+footer li {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+footer li:after {
+  content: '-';
+  display: inline-block;
+  margin-left: 12px;
+}
+
+footer li.last-child:after {
+  display: none;
+}
+
+.center {
+  text-align: center;
+}
+
+#url {
+  display: none;
+}
+
+.input-xlarge {
+  padding: 5px;
+  width: 90%;
+  height: 40px;
+  font-size: 16px;
+  line-height: 1.7;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  box-shadow: 0;
+  outline: 0;
+}
+
+.btn,
+.start {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 8px 15px 10px 15px;
+  line-height: 1;
+  background-color: #5FB97D;
+  color: #fff;
+  font-size: 20px;
+  margin-top: 30px;
+  border: 0;
+  outline: 0;
+}
+
