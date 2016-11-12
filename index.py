@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-13 02:40:30
+# @Last Modified time: 2016-11-13 06:18:26
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
 
@@ -96,7 +96,7 @@ def query_db():
     print "IM QUERYING A DB"
 
 if __name__ == '__main__':
-    scheduler_sync = Scheduler(30, sync)
+    scheduler_sync = Scheduler(10*60, sync) #10分钟更新一次
     # scheduler_love = Scheduler(10, love)
     scheduler_sync.start()
     # scheduler_love.start()
