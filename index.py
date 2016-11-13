@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-13 20:24:37
+# @Last Modified time: 2016-11-13 20:35:17
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -83,7 +83,7 @@ def sync():
         #read playing songs from the xiami
         titles, artists, track_times, record_time = scrobble.xiami(user)
         if titles:
-            print 'user: %s : titles: %s, artists: %s ' % (user.users_ID, titles, artists)
+            print 'user: %s : titles: %s, artists: %s ' % (user.get(users_ID), titles, artists)
             try:
                 scrobble.lastfm(titles, artists, track_times, user)
 
