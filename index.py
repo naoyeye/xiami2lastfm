@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-13 09:40:33
+# @Last Modified time: 2016-11-13 20:24:37
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -48,6 +48,15 @@ def third():
         database.insert_user(user_ID, session, record_time)
         return render_template('third.html')
 
+@app.route('/run')
+def run():
+    try:
+        sync()
+
+    except Exception as e:
+        raise e
+    
+    return 'running'
 
 def love():
     number_of_task = tasks
@@ -66,7 +75,6 @@ def love():
             scrobble.lastfm_loved(loved_songs, user)
     # print 'Loved!'
 
-
 def sync():
     #read the user list from database
     users = database.get_user()
@@ -75,11 +83,14 @@ def sync():
         #read playing songs from the xiami
         titles, artists, track_times, record_time = scrobble.xiami(user)
         if titles:
-            # print 'titles: %s, artists: %s ' % (titles, artists)
-            scrobble.lastfm(titles, artists, track_times, user)
+            print 'user: %s : titles: %s, artists: %s ' % (user.users_ID, titles, artists)
+            try:
+                scrobble.lastfm(titles, artists, track_times, user)
 
-            #modify the user information
-            database.modify_user(user[0], record_time)
+                #modify the user information
+                database.modify_user(user[0], record_time)
+            except Exception as e:
+                raise e
 
 
 @app.route('/verify', methods=['POST'])
