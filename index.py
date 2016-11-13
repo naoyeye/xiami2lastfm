@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-13 21:02:50
+# @Last Modified time: 2016-11-13 21:05:44
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -100,7 +100,7 @@ def sync_handler():
         titles, artists, track_times, record_time = scrobble.xiami(user)
         if titles:
             try:
-                print 'user: %s : titles: %s, artists: %s ' % (user.get('id'), titles, artists)
+                print 'user: %s : titles: %s, artists: %s ' % (user, titles, artists)
                 scrobble.lastfm(titles, artists, track_times, user)
                 #modify the user information
                 database.modify_user(user[0], record_time)
