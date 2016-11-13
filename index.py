@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-13 21:27:48
+# @Last Modified time: 2016-11-13 22:09:15
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -81,12 +81,15 @@ def favorite_handler():
     for user in users:
         loved_songs = scrobble.xiami_loved(user)
         if loved_songs:
-            try:
-                print '[favorite] -  %s - %s - %s' % (user, loved_songs[0].title, loved_songs[0].artist)
-                scrobble.lastfm_loved(loved_songs, user)
-                print 'Loved!'
-            except Exception as e:
-                raise e
+            # try:
+            #     print '[favorite] -  %s - %s - %s' % (user, loved_songs[0].title, loved_songs[0].artist)
+            #     scrobble.lastfm_loved(loved_songs, user)
+            #     print 'Loved!'
+            # except Exception as e:
+            #     raise e
+            print '[favorite] -  %s - %s - %s' % (user, loved_songs[0].title, loved_songs[0].artist)
+            scrobble.lastfm_loved(loved_songs, user)
+            print 'Loved!'
 
 
 def sync_handler():
@@ -97,14 +100,19 @@ def sync_handler():
         #read playing songs from the xiami
         titles, artists, track_times, record_time = scrobble.xiami(user)
         if titles:
-            try:
-                print '[sync] - user: %s : titles: %s, artists: %s ' % (user, titles, artists)
-                scrobble.lastfm(titles, artists, track_times, user)
-                #modify the user information
-                database.modify_user(user[0], record_time)
-                print 'Synced!'
-            except Exception as e:
-                raise e
+            # try:
+            #     print '[sync] - user: %s : titles: %s, artists: %s ' % (user, titles, artists)
+            #     scrobble.lastfm(titles, artists, track_times, user)
+            #     #modify the user information
+            #     database.modify_user(user[0], record_time)
+            #     print 'Synced!'
+            # except Exception as e:
+            #     raise e
+            print '[sync] - user: %s : titles: %s, artists: %s ' % (user, titles, artists)
+            scrobble.lastfm(titles, artists, track_times, user)
+            #modify the user information
+            database.modify_user(user[0], record_time)
+            print 'Synced!'
 
 
 @app.route('/verify', methods=['POST'])
@@ -126,11 +134,11 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    scheduler_sync = Scheduler(10*60, sync_handler) #10分钟更新一次
-    scheduler_love = Scheduler(60*60*24, favorite_handler) #一天更新一次
-    scheduler_sync.start()
-    scheduler_love.start()
-    app.debug = False
+    # scheduler_sync = Scheduler(10*60, sync_handler) #10分钟更新一次
+    # scheduler_love = Scheduler(60*60*24, favorite_handler) #一天更新一次
+    # scheduler_sync.start()
+    # scheduler_love.start()
+    app.debug = True
     app.run()
-    scheduler_sync.stop()
-    scheduler_love.stop()
+    # scheduler_sync.stop()
+    # scheduler_love.stop()

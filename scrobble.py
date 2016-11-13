@@ -168,8 +168,10 @@ def lastfm(titles, artists, track_times, user):
     network = pylast.LastFMNetwork(api_key = API_KEY, api_secret = API_SECRET)
     session_key = user[1]
     network.session_key = session_key
+    # network.enable_proxy('128.199.132.114', '8080')
+    # print 'network.session_key %s ' % network.session_key
     #if the music is playing on
-    if (time.time()-track_times[0])<180:
+    if (time.time() - track_times[0]) < 180:
         network.update_now_playing(artists[0], titles[0])
 
     def scrobble(title, artist, timestamp):
