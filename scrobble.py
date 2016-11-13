@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 # -- encoding:utf - 8 --
+# Thanks http://www.patrickcai.com/
+
 import sys
 import requests
 import re
