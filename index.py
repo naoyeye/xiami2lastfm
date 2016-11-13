@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-13 21:11:24
+# @Last Modified time: 2016-11-13 21:27:48
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -82,7 +82,7 @@ def favorite_handler():
         loved_songs = scrobble.xiami_loved(user)
         if loved_songs:
             try:
-                print 'loved_songs: %s - %s' % (loved_songs, user)
+                print '[favorite] -  %s - %s - %s' % (user, loved_songs[0].title, loved_songs[0].artist)
                 scrobble.lastfm_loved(loved_songs, user)
                 print 'Loved!'
             except Exception as e:
@@ -98,7 +98,7 @@ def sync_handler():
         titles, artists, track_times, record_time = scrobble.xiami(user)
         if titles:
             try:
-                print 'user: %s : titles: %s, artists: %s ' % (user, titles, artists)
+                print '[sync] - user: %s : titles: %s, artists: %s ' % (user, titles, artists)
                 scrobble.lastfm(titles, artists, track_times, user)
                 #modify the user information
                 database.modify_user(user[0], record_time)
