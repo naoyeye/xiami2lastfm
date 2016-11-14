@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-14 11:36:48
+# @Last Modified time: 2016-11-14 11:40:17
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -138,11 +138,11 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    # scheduler_sync = Scheduler(10*60, sync_handler) #10分钟更新一次
-    # scheduler_love = Scheduler(60*60*24, favorite_handler) #一天更新一次
-    # scheduler_sync.start()
-    # scheduler_love.start()
+    scheduler_sync = Scheduler(7*60, sync_handler) #7 分钟更新一次
+    scheduler_love = Scheduler(60*60*24, favorite_handler) #24 小时更新一次
+    scheduler_sync.start()
+    scheduler_love.start()
     app.debug = False
     app.run()
-    # scheduler_sync.stop()
-    # scheduler_love.stop()
+    scheduler_sync.stop()
+    scheduler_love.stop()
