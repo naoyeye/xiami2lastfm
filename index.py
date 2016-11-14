@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-14 10:44:00
+# @Last Modified time: 2016-11-14 11:32:47
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     scheduler_love = Scheduler(60*60*24, favorite_handler) #一天更新一次
     scheduler_sync.start()
     scheduler_love.start()
-    app.debug = True
+    app.debug = False
     app.run()
     scheduler_sync.stop()
     scheduler_love.stop()
