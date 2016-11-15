@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-14 11:40:17
+# @Last Modified time: 2016-11-15 13:29:42
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -48,23 +48,23 @@ def third():
         database.insert_user(user_ID, session, record_time)
         return render_template('third.html')
 
-@app.route('/sync')
-def sync():
-    try:
-        sync_handler()
-        return 'sync success'
-    except Exception as e:
-        print e
-        return render_template('error.html', error=e), 500
+# @app.route('/sync')
+# def sync():
+#     try:
+#         sync_handler()
+#         return 'sync success'
+#     except Exception as e:
+#         print e
+#         return render_template('error.html', error=e), 500
 
-@app.route('/favorite')
-def favorite():
-    try:
-        favorite_handler()
-        return 'favorite success'
-    except Exception as e:
-        print e
-        return render_template('error.html', error=e), 500
+# @app.route('/favorite')
+# def favorite():
+#     try:
+#         favorite_handler()
+#         return 'favorite success'
+#     except Exception as e:
+#         print e
+#         return render_template('error.html', error=e), 500
 
 
 def favorite_handler():
