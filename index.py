@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-12-05 16:58:35
+# @Last Modified time: 2016-12-05 17:35:47
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -107,7 +107,7 @@ def sync_handler():
                 # print '[sync] - user: %s : titles: %s, artists: %s ' % (user, titles, artists)
                 print 'sync_handler = ' * 5
                 for title, artist in izip(titles, artists):
-                        print '%s: %s - %s' % (user, artist, title)
+                    print '%s: %s - %s' % (user, artist, title)
                 print '='*20
                 scrobble.lastfm(titles, artists, track_times, user)
                 #modify the user information
