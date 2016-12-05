@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-11-15 13:29:42
+# @Last Modified time: 2016-12-05 12:38:11
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -35,6 +35,7 @@ def third():
     token = request.args.get('token')
     user_ID = request.args.get('username')
     is_preview = request.args.get('is_preview')
+
     if is_preview == '1':
         return render_template('third.html')
     else:
@@ -42,7 +43,6 @@ def third():
             session = scrobble.get_session(token)
         except Exception as e:
             return render_template('error.html', error='网页已过期'), 401
-        
         record_time = datetime.now() - timedelta(minutes=20)
         record_time = record_time.strftime('%Y-%m-%d %H:%M:%S')
         database.insert_user(user_ID, session, record_time)
