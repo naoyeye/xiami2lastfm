@@ -2,7 +2,7 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-12-05 12:38:11
+# @Last Modified time: 2016-12-05 16:58:35
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
@@ -13,6 +13,7 @@ import database
 from datetime import datetime, timedelta
 from scheduler import Scheduler
 from config import tasks
+from itertools import izip
 
 app = Flask(__name__)
 
@@ -98,12 +99,15 @@ def sync_handler():
     #read the user list from database
     users = database.get_user()
 
-    for user in  users:
+    for user in users:
         #read playing songs from the xiami
         titles, artists, track_times, record_time = scrobble.xiami(user)
         if titles:
             try:
-                print '[sync] - user: %s : titles: %s, artists: %s ' % (user, titles, artists)
+                # print '[sync] - user: %s : titles: %s, artists: %s ' % (user, titles, artists)
+                print 'sync_handler = ' * 5
+                for title, artist in izip(titles, artists):
+                        print '%s: %s - %s' % (user, artist, title)
                 print '='*20
                 scrobble.lastfm(titles, artists, track_times, user)
                 #modify the user information
@@ -141,7 +145,7 @@ if __name__ == '__main__':
     scheduler_sync = Scheduler(10*60, sync_handler) #10 分钟更新一次
     #scheduler_love = Scheduler(60*60*24, favorite_handler) #24 小时更新一次
     scheduler_sync.start()
-    #scheduler_love.start()
+    # scheduler_love.start()
     app.debug = False
     app.run()
     scheduler_sync.stop()

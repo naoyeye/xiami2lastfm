@@ -826,9 +826,6 @@ class _Request(object):
             response_text = _unicode(conn.getresponse().read())
         except Exception as e:
             raise MalformedResponseError(self.network, e)
-        
-        print 'response_text'
-        print response_text
 
         self._check_response_for_errors(response_text)
         return response_text
