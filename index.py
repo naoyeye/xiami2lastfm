@@ -2,10 +2,11 @@
 # @Author: hanjiyun
 # @Date:   2016-11-12 20:49:20
 # @Last Modified by:   hanjiyun
-# @Last Modified time: 2016-12-14 14:30:53
+# @Last Modified time: 2016-12-25 15:34:59
 # Thanks http://www.patrickcai.com/
 
 from flask import Flask, render_template, request, jsonify, abort, make_response
+from flaskrun import flaskrun
 
 import user
 import scrobble
@@ -153,7 +154,8 @@ if __name__ == '__main__':
     #scheduler_love = Scheduler(60*60*24, favorite_handler) #24 小时更新一次
     scheduler_sync.start()
     # scheduler_love.start()
-    app.debug = False
-    app.run()
+    # app.debug = False
+    # app.run()
+    flaskrun(app)
     scheduler_sync.stop()
     #scheduler_love.stop()
